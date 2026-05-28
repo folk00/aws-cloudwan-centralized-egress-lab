@@ -45,13 +45,11 @@ Group attachment policies to use that style of tag existence matching.
 The `Prod` segment is isolated so same-segment workload attachments cannot route
 around the inserted inspection path.
 
-In demos language:
+Workload VPCs are attached to the Prod segment. Egress traffic can be steered
+to the regional inspection VPC through a network function group, then sent
+through AWS Network Firewall and NAT before leaving to the internet.
 
-> Workload VPCs are attached to the Prod segment. Egress traffic can be steered
-> to the regional inspection VPC through a network function group, then sent
-> through AWS Network Firewall and NAT before leaving to the internet.
-
-## Production Questions To Expect
+## Design Review Questions
 
 - How would you make this multi-account?
 - How do you separate prod, non-prod and shared services?
@@ -60,9 +58,7 @@ In demos language:
 - How do you monitor firewall drops and asymmetric routing?
 - How would you support Direct Connect or Site-to-Site VPN attachments later?
 
-Good answer:
-
-> I would add guardrails around attachment tags, separate policy promotion from
-> application deployment, use CI checks for Cloud WAN policy JSON, and require
-> validation of attachment state, segment membership, route tables and firewall
-> logs before declaring the change healthy.
+A stronger production version would add guardrails around attachment tags,
+separate policy promotion from application deployment, use CI checks for Cloud
+WAN policy JSON, and require validation of attachment state, segment
+membership, route tables and firewall logs before declaring the change healthy.

@@ -5,7 +5,7 @@
 This lab demonstrates a multi-region AWS Cloud WAN backbone with centralized
 egress inspection.
 
-The job description asks for:
+The design focuses on:
 
 - global network backbone across IAD, PDX and DUB
 - AWS Cloud WAN
@@ -106,10 +106,8 @@ For egress inspection, the policy uses:
 }
 ```
 
-The important key points:
-
-> Service insertion lets Cloud WAN steer traffic to the inspection VPC using
-> policy, not hundreds of manually maintained routes.
+Service insertion lets Cloud WAN steer traffic to the inspection VPC using
+policy, not hundreds of manually maintained routes.
 
 `Prod` uses `isolate-attachments = true` so workload attachments in the same
 segment do not bypass the inspection path.

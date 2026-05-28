@@ -1,10 +1,9 @@
 # AWS Cloud WAN Centralized Egress Lab
 
-ready AWS networking lab for Cloud WAN, centralized egress, AWS
-Network Firewall and Terraform.
+Terraform lab for AWS Cloud WAN, centralized egress, AWS Network Firewall and
+CloudWatch validation.
 
-The design mirrors a senior AWS Cloud Engineer role focused on delivering a
-global network backbone across:
+The design builds a global network backbone across:
 
 | Code | Region | AWS region |
 | --- | --- | --- |
@@ -147,22 +146,6 @@ Approx 2-hour 2-region demo cost: USD 4.15 to 4.35
 The range depends on whether the NAT Gateway hourly/data discount applies in
 the exact Network Firewall chained path.
 
-## summary
-
-Use this:
-
-> I built a Terraform-based AWS Cloud WAN lab that maps enterprise WAN ideas
-> into AWS-native constructs: global network, core network edges, segments,
-> tag-based attachment policies, network function groups, service insertion,
-> centralized inspection and egress routing.
-
-Be honest:
-
-> I studied Cloud WAN for AWS Advanced Networking and built this lab to deepen
-> hands-on understanding. I would not claim years of production Cloud WAN
-> operation yet, but the design demonstrates the same patterns required in a
-> real enterprise backbone.
-
 ## Repository Map
 
 ```text
@@ -176,7 +159,6 @@ docs/
   cost-estimate.md      Full deployment cost model
   deployment-runbook.md Commands to validate, deploy and destroy
   github-screenshot-gallery.md
-  demos-guide.md    Questions and answers for demos
   screenshot-checklist.md
 examples/
   full-lab.tfvars.example

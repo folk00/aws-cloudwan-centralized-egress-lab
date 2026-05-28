@@ -32,7 +32,7 @@ These are already organized in `docs/images/cloudwan/`.
 
 ## Optional Screenshots Still Worth Capturing
 
-These are not required for the Terraform summary, but they would help if
+These are not required for the Terraform lab documentation, but they would help if
 the goal is to learn or document how to create the same design manually in the
 AWS console.
 

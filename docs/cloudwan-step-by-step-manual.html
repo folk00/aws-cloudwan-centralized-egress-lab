@@ -122,7 +122,7 @@
   <p><strong>Step-by-step manual for building, validating and explaining the lab from zero.</strong></p>
 
   <div class="callout">
-    <strong>Goal:</strong> Build an ready AWS networking lab that demonstrates Cloud WAN core networks,
+    <strong>Goal:</strong> Build an AWS networking lab that demonstrates Cloud WAN core networks,
     global edge locations, VPC attachments, segment policies, service insertion, AWS Network Firewall,
     NAT egress and CloudWatch validation.
   </div>
@@ -334,7 +334,7 @@ Purpose     = cloudwan-centralized-egress-lab</pre>
   <pre>cd C:\Users\davidgo2\Downloads\aws-cloudwan-centralized-egress-lab\terraform
 terraform destroy "-var-file=..\examples\current-3region-lab.tfvars.example"</pre>
 
-  <h2>14. demos Explanation</h2>
+  <h2>14. Project Explanation</h2>
   <p>A concise way to explain the project:</p>
   <pre>I built a Terraform-based AWS Cloud WAN centralized egress lab across three regions.
 The lab creates workload and inspection VPCs, attaches them directly to a Cloud WAN core network,
@@ -343,6 +343,6 @@ InspectionNFG network function group, then uses service insertion to steer traff
 Network Firewall and NAT Gateway. I validated the path with SSM from a private EC2 instance and
 CloudWatch flow logs showing TLS/443 traffic through the firewall.</pre>
 
-  <p class="small">Generated for the AWS Cloud WAN Centralized Egress Lab reference project.</p>
+  <p class="small">Generated for the AWS Cloud WAN Centralized Egress Lab project.</p>
 </body>
 </html>

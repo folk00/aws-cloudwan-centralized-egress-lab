@@ -39,7 +39,7 @@ output "test_instances" {
   )
 }
 
-output "interview_validation_commands" {
+output "validation_commands" {
   value = var.enable_cloudwan ? [
     "aws networkmanager get-core-network --core-network-id ${aws_networkmanager_core_network.this[0].id}",
     "aws networkmanager get-core-network-policy --core-network-id ${aws_networkmanager_core_network.this[0].id} --alias LIVE",
