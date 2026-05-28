@@ -1,0 +1,32 @@
+# Copy this file into terraform/full-lab.auto.tfvars when you are ready to plan
+# the full deployment.
+#
+# WARNING: this creates expensive resources. Read docs/cost-estimate.md first.
+
+enable_cloudwan          = true
+enable_service_insertion = true
+enable_network_firewall  = true
+enable_nat_gateway       = true
+enable_vpc_flow_logs     = false
+enable_test_instances    = true
+test_instance_type        = "t3.nano"
+
+# Full architecture: IAD, PDX and DUB.
+enabled_regions = ["iad", "pdx", "dub"]
+
+# Cost-aware demo default. For a stronger HA story set this to 2, but costs rise.
+az_count = 1
+
+project_name = "cloudwan-egress-lab"
+environment  = "demo"
+
+region_iad = "us-east-1"
+region_pdx = "us-west-2"
+region_dub = "eu-west-1"
+
+workload_iad_cidr   = "10.10.0.0/16"
+workload_pdx_cidr   = "10.20.0.0/16"
+workload_dub_cidr   = "10.30.0.0/16"
+inspection_iad_cidr = "100.64.10.0/24"
+inspection_pdx_cidr = "100.64.20.0/24"
+inspection_dub_cidr = "100.64.30.0/24"

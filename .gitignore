@@ -1,0 +1,23 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+
+# Local-only editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local notes or exported AWS artifacts
+*.pem
+*.key
+*.zip
+*.tar.gz
+
+# Personal console/manual-mode notes, not for GitHub
+docs/cloudwan-console-manual-draft.html
+docs/cloudwan-console-manual-draft.pdf
+docs/images/cloudwan/manual/

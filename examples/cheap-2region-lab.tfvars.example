@@ -1,0 +1,30 @@
+# Copy this file into terraform/cheap-2region.auto.tfvars for the lowest-cost
+# hands-on demo that still shows Cloud WAN, service insertion, firewall, NAT and
+# private EC2 validation hosts.
+
+enable_cloudwan          = true
+enable_service_insertion = true
+enable_network_firewall  = true
+enable_nat_gateway       = true
+enable_vpc_flow_logs     = false
+enable_test_instances    = true
+test_instance_type        = "t3.nano"
+
+# Cheap mode: deploy only IAD and PDX.
+enabled_regions = ["iad", "pdx"]
+
+az_count = 1
+
+project_name = "cloudwan-egress-lab"
+environment  = "cheap"
+
+region_iad = "us-east-1"
+region_pdx = "us-west-2"
+region_dub = "eu-west-1"
+
+workload_iad_cidr   = "10.10.0.0/16"
+workload_pdx_cidr   = "10.20.0.0/16"
+workload_dub_cidr   = "10.30.0.0/16"
+inspection_iad_cidr = "100.64.10.0/24"
+inspection_pdx_cidr = "100.64.20.0/24"
+inspection_dub_cidr = "100.64.30.0/24"

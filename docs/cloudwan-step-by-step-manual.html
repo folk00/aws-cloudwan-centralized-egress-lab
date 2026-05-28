@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AWS Cloud WAN Centralized Egress Lab - Step-by-Step Manual</title>
+  <style>
+    @page {
+      size: Letter;
+      margin: 0.55in;
+    }
+
+    body {
+      color: #1f2937;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    h1, h2, h3 {
+      color: #111827;
+      page-break-after: avoid;
+    }
+
+    h1 {
+      font-size: 24pt;
+      margin: 0 0 8px;
+    }
+
+    h2 {
+      border-bottom: 1px solid #d1d5db;
+      font-size: 16pt;
+      margin: 28px 0 10px;
+      padding-bottom: 4px;
+    }
+
+    h3 {
+      font-size: 12.5pt;
+      margin: 18px 0 6px;
+    }
+
+    p {
+      margin: 6px 0 10px;
+    }
+
+    code, pre {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    pre {
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 9pt;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 10px 0 14px;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f9fafb;
+      color: #111827;
+    }
+
+    img {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      display: block;
+      margin: 10px auto 4px;
+      max-height: 5.6in;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .caption {
+      color: #4b5563;
+      font-size: 9pt;
+      margin: 0 0 14px;
+      text-align: center;
+    }
+
+    .callout {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      margin: 12px 0;
+      padding: 10px 12px;
+    }
+
+    .warning {
+      background: #fff7ed;
+      border-left: 4px solid #f97316;
+      margin: 12px 0;
+      padding: 10px 12px;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .small {
+      color: #4b5563;
+      font-size: 9pt;
+    }
+  </style>
+</head>
+<body>
+  <h1>AWS Cloud WAN Centralized Egress Lab</h1>
+  <p><strong>Step-by-step manual for building, validating and explaining the lab from zero.</strong></p>
+
+  <div class="callout">
+    <strong>Goal:</strong> Build an ready AWS networking lab that demonstrates Cloud WAN core networks,
+    global edge locations, VPC attachments, segment policies, service insertion, AWS Network Firewall,
+    NAT egress and CloudWatch validation.
+  </div>
+
+  <div class="warning">
+    <strong>Cost warning:</strong> This is a short-lived demo lab. AWS Network Firewall, NAT Gateways and Cloud WAN
+    attachments can become expensive if left running. Destroy the lab after screenshots and validation.
+  </div>
+
+  <h2>1. Architecture Summary</h2>
+  <p>The lab deploys a Cloud WAN global network with three core network edge locations:</p>
+  <table>
+    <tr><th>Code</th><th>Region</th><th>AWS region</th><th>Purpose</th></tr>
+    <tr><td>IAD</td><td>Northern Virginia</td><td><code>us-east-1</code></td><td>Workload and inspection VPC</td></tr>
+    <tr><td>PDX</td><td>Oregon</td><td><code>us-west-2</code></td><td>Workload and inspection VPC</td></tr>
+    <tr><td>DUB</td><td>Ireland</td><td><code>eu-west-1</code></td><td>Workload and inspection VPC plus validation host</td></tr>
+  </table>
+
+  <pre>Private EC2 workload
+  -> workload private route table
+  -> AWS Cloud WAN core network
+  -> Prod segment service insertion
+  -> InspectionNFG network function group
+  -> AWS Network Firewall endpoint
+  -> NAT Gateway
+  -> Internet Gateway
+  -> Internet</pre>
+
+  <p>This lab does not use a Transit Gateway. VPCs attach directly to the Cloud WAN core network.</p>
+  <img src="images/cloudwan/01-global-network-overview-3-edges.png" alt="Cloud WAN global network overview">
+  <p class="caption">Global Network overview showing three Cloud WAN edge locations and zero Transit Gateways.</p>
+
+  <h2>2. Prerequisites</h2>
+  <ul>
+    <li>AWS account with permissions for Cloud WAN, VPC, EC2, IAM, Network Firewall, NAT Gateway and CloudWatch Logs.</li>
+    <li>Terraform installed locally.</li>
+    <li>AWS CLI configured for the target account.</li>
+    <li>SSM Session Manager support. The lab creates IAM roles for the private validation EC2 instances.</li>
+  </ul>
+
+  <h2>3. Deploy From Zero With Terraform</h2>
+  <h3>Step 1 - Open the Terraform folder</h3>
+  <pre>cd C:\Users\davidgo2\Downloads\aws-cloudwan-centralized-egress-lab\terraform</pre>
+
+  <h3>Step 2 - Initialize Terraform</h3>
+  <pre>terraform init</pre>
+
+  <h3>Step 3 - Choose the lab profile</h3>
+  <p>The 3-region demo variable file is:</p>
+  <pre>..\examples\current-3region-lab.tfvars.example</pre>
+
+  <p>It enables Cloud WAN, service insertion, AWS Network Firewall, NAT Gateways and private SSM validation instances.</p>
+
+  <h3>Step 4 - Plan</h3>
+  <pre>terraform plan "-var-file=..\examples\current-3region-lab.tfvars.example" "-out=cloudwan-3region.tfplan"</pre>
+
+  <h3>Step 5 - Apply</h3>
+  <pre>terraform apply "cloudwan-3region.tfplan"</pre>
+
+  <p>Cloud WAN policy updates can take several minutes. Network Firewall endpoints can also take time to become ready.</p>
+
+  <h2>4. What Terraform Creates</h2>
+  <table>
+    <tr><th>Layer</th><th>Resources</th><th>Why it matters</th></tr>
+    <tr><td>Global control plane</td><td>Cloud WAN Global Network and Core Network</td><td>Creates the managed global network backbone.</td></tr>
+    <tr><td>Segmentation</td><td><code>Prod</code> segment and <code>Shared</code> placeholder</td><td>Models global routing domains.</td></tr>
+    <tr><td>Service insertion</td><td><code>InspectionNFG</code> network function group</td><td>Target group for inspection VPC attachments.</td></tr>
+    <tr><td>Regional VPCs</td><td>Workload VPC and inspection VPC in each region</td><td>Separates workloads from firewall/egress infrastructure.</td></tr>
+    <tr><td>Security path</td><td>AWS Network Firewall, NAT Gateway, Internet Gateway</td><td>Provides inspected centralized internet egress.</td></tr>
+    <tr><td>Validation</td><td>Private EC2 instances with SSM</td><td>Proves traffic works without public IPs.</td></tr>
+  </table>
+
+  <h2>5. Cloud WAN Policy</h2>
+  <p>Cloud WAN classifies attachments through tags and attachment policies.</p>
+  <img src="images/cloudwan/02-cloudwan-attachment-policies.png" alt="Cloud WAN attachment policies">
+  <p class="caption">Attachment policies map inspection attachments to <code>InspectionNFG</code> and workload attachments to <code>Prod</code>.</p>
+
+  <p>The functional tags are:</p>
+  <table>
+    <tr><th>Attachment type</th><th>Tag</th><th>Result</th></tr>
+    <tr><td>Workload VPC attachment</td><td><code>segment = Prod</code></td><td>Associated to the <code>Prod</code> segment.</td></tr>
+    <tr><td>Inspection VPC attachment</td><td><code>network-function-group = InspectionNFG</code></td><td>Added to the inspection network function group.</td></tr>
+  </table>
+
+  <img src="images/cloudwan/03-network-function-group-inspectionnfg.png" alt="InspectionNFG">
+  <p class="caption">The <code>InspectionNFG</code> network function group represents regional inspection VPC attachments.</p>
+
+  <img src="images/cloudwan/04-segment-action-prod-send-to-inspectionnfg.png" alt="Segment action">
+  <p class="caption">The segment action sends <code>Prod</code> traffic to the <code>InspectionNFG</code> service insertion target.</p>
+
+  <img src="images/cloudwan/05-attachments-segment-and-nfg-mapping.png" alt="Attachment mapping">
+  <p class="caption">The attachment list shows workload VPCs in <code>Prod</code> and inspection VPCs mapped to the network function group.</p>
+
+  <h2>6. VPC Attachments</h2>
+  <p>Workload VPC attachments do not use appliance mode. They only send workload traffic to the Cloud WAN core.</p>
+  <img src="images/cloudwan/06-workload-vpc-attachment-dub-private-subnet.png" alt="Workload VPC attachment">
+  <p class="caption">DUB workload VPC attachment using the private workload subnet.</p>
+
+  <p>Inspection VPC attachments do use appliance mode because they host firewall infrastructure.</p>
+  <img src="images/cloudwan/07-inspection-vpc-attachment-appliance-mode.png" alt="Inspection VPC attachment">
+  <p class="caption">Inspection VPC attachment with appliance mode enabled.</p>
+
+  <h2>7. Segments</h2>
+  <p>The <code>Prod</code> segment spans all three edge locations. Isolated attachments are enabled to avoid broad lateral
+  connectivity between workload attachments.</p>
+  <img src="images/cloudwan/08-prod-segment-three-edge-locations.png" alt="Prod segment">
+  <p class="caption">The <code>Prod</code> segment across IAD, PDX and DUB.</p>
+
+  <h2>8. Route Tables</h2>
+  <p>The route tables prove the data path. In DUB, the workload VPC has one private route table, and the inspection VPC has
+  route tables for Cloud WAN attachment traffic, firewall subnet traffic and public/NAT egress.</p>
+  <img src="images/cloudwan/09-dub-route-tables-overview.png" alt="DUB route tables">
+  <p class="caption">DUB route tables created by Terraform.</p>
+
+  <h3>Workload private route table</h3>
+  <p>The private workload subnet sends default traffic to the Cloud WAN core network.</p>
+  <pre>10.30.0.0/16  -> local
+0.0.0.0/0     -> core-network-0504385422771f617</pre>
+  <img src="images/cloudwan/10-dub-workload-private-rt-default-to-cloudwan.png" alt="Workload private route table">
+  <p class="caption">DUB workload private route table default route to Cloud WAN.</p>
+
+  <h3>Inspection Cloud WAN route table</h3>
+  <p>Traffic entering the inspection VPC from Cloud WAN is sent to the Network Firewall endpoint.</p>
+  <pre>100.64.30.0/24 -> local
+0.0.0.0/0      -> Network Firewall endpoint</pre>
+  <img src="images/cloudwan/11-dub-inspection-cloudwan-rt-default-to-firewall-endpoint.png" alt="Inspection Cloud WAN route table">
+  <p class="caption">DUB inspection Cloud WAN route table default route to firewall endpoint.</p>
+
+  <h3>Inspection firewall route table</h3>
+  <p>After inspection, internet-bound traffic goes to NAT Gateway. Workload CIDRs return to Cloud WAN.</p>
+  <pre>0.0.0.0/0    -> NAT Gateway
+10.10.0.0/16 -> Cloud WAN core
+10.20.0.0/16 -> Cloud WAN core
+10.30.0.0/16 -> Cloud WAN core</pre>
+  <img src="images/cloudwan/12-dub-inspection-firewall-rt-nat-and-cloudwan-return.png" alt="Inspection firewall route table">
+  <p class="caption">DUB firewall subnet route table with NAT egress and Cloud WAN return paths.</p>
+
+  <h3>Inspection public route table</h3>
+  <p>The public subnet reaches the internet through the IGW and sends workload CIDR return traffic back through the firewall endpoint.</p>
+  <pre>0.0.0.0/0    -> Internet Gateway
+10.10.0.0/16 -> Network Firewall endpoint
+10.20.0.0/16 -> Network Firewall endpoint
+10.30.0.0/16 -> Network Firewall endpoint</pre>
+  <img src="images/cloudwan/13-dub-inspection-public-rt-igw-and-firewall-return.png" alt="Inspection public route table">
+  <p class="caption">DUB public route table keeps return traffic symmetric through the firewall endpoint.</p>
+
+  <h2>9. AWS Network Firewall</h2>
+  <p>The lab uses a simple stateful Suricata-compatible rule group for HTTP, HTTPS and DNS from RFC1918 workload networks.</p>
+  <img src="images/cloudwan/14-network-firewall-stateful-egress-rules.png" alt="Network Firewall stateful rules">
+  <p class="caption">Stateful rule group allowing HTTP, HTTPS and DNS from <code>10.0.0.0/8</code>.</p>
+
+  <img src="images/cloudwan/15-network-firewall-ready-in-sync.png" alt="Network Firewall ready">
+  <p class="caption">DUB Network Firewall is ready and in sync.</p>
+
+  <p>The NAT Gateway provides the inspected internet egress hop after firewall processing.</p>
+  <img src="images/cloudwan/16-nat-gateway-available.png" alt="NAT Gateway">
+  <p class="caption">DUB inspection NAT Gateway in available state.</p>
+
+  <h2>10. Private EC2 Validation</h2>
+  <p>The validation host is private and managed with SSM. It does not require SSH or a public IP.</p>
+  <img src="images/cloudwan/17-private-ec2-instance-dub-no-public-ip.png" alt="Private EC2">
+  <p class="caption">DUB private validation instance in the workload VPC.</p>
+
+  <h3>Run the SSM command</h3>
+  <p>In Systems Manager Run Command, use document <code>AWS-RunShellScript</code> and target instance
+  <code>i-0ae36a72cfb42e7a8</code>.</p>
+  <pre>hostname
+ip route
+curl -s -I -m 10 https://aws.amazon.com | head -n 1
+getent hosts amazon.com | head -n 3</pre>
+
+  <p>Expected result:</p>
+  <pre>ip-10-30-10-236.eu-west-1.compute.internal
+default via 10.30.10.1 dev ens5 ...
+HTTP/2 200
+98.x.x.x amazon.com</pre>
+  <img src="images/cloudwan/18-ssm-run-command-http-200-validation.png" alt="SSM validation">
+  <p class="caption">SSM Run Command confirms that the private EC2 instance reached <code>aws.amazon.com</code>.</p>
+
+  <h2>11. CloudWatch Flow Log Validation</h2>
+  <p>Use CloudWatch Logs Insights in <code>eu-west-1</code> against this log group:</p>
+  <pre>/aws/network-firewall/cloudwan-egress-lab-cheap-dub-inspection/flow</pre>
+
+  <p>Query:</p>
+  <pre>fields @timestamp, event.src_ip, event.dest_ip, event.dest_port, event.app_proto, event.proto
+| filter event.src_ip = "10.30.10.236" or event.dest_ip = "10.30.10.236"
+| sort @timestamp desc
+| limit 20</pre>
+
+  <p>Expected row:</p>
+  <pre>event.src_ip     = 10.30.10.236
+event.dest_port  = 443
+event.app_proto  = tls
+event.proto      = TCP</pre>
+  <img src="images/cloudwan/19-cloudwatch-flow-log-tls-443-validation.png" alt="CloudWatch flow log validation">
+  <p class="caption">CloudWatch Network Firewall flow logs prove TLS/443 traffic from the private workload IP.</p>
+
+  <h2>12. Tags and Governance</h2>
+  <p>The lab applies default tags for ownership, environment, purpose and cost tracking.</p>
+  <pre>Project     = cloudwan-egress-lab
+Environment = cheap
+Owner       = david-gonzalez
+Purpose     = cloudwan-centralized-egress-lab</pre>
+  <img src="images/cloudwan/20-resource-tags-governance.png" alt="Resource tags">
+  <p class="caption">Consistent resource tagging for governance and cost tracking.</p>
+
+  <h2>13. Destroy the Lab</h2>
+  <p>Destroy immediately after the demo or screenshots.</p>
+  <pre>cd C:\Users\davidgo2\Downloads\aws-cloudwan-centralized-egress-lab\terraform
+terraform destroy "-var-file=..\examples\current-3region-lab.tfvars.example"</pre>
+
+  <h2>14. demos Explanation</h2>
+  <p>A concise way to explain the project:</p>
+  <pre>I built a Terraform-based AWS Cloud WAN centralized egress lab across three regions.
+The lab creates workload and inspection VPCs, attaches them directly to a Cloud WAN core network,
+uses tag-based attachment policies to map workloads to a Prod segment and inspection VPCs to an
+InspectionNFG network function group, then uses service insertion to steer traffic through AWS
+Network Firewall and NAT Gateway. I validated the path with SSM from a private EC2 instance and
+CloudWatch flow logs showing TLS/443 traffic through the firewall.</pre>
+
+  <p class="small">Generated for the AWS Cloud WAN Centralized Egress Lab reference project.</p>
+</body>
+</html>
