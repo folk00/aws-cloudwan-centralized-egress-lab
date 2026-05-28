@@ -101,7 +101,7 @@ Put the rest in `docs/images/cloudwan/` for the full PDF/manual.
 
 | Document | Status | Notes |
 | --- | --- | --- |
-| `cloudwan-step-by-step-manual.pdf` | Current | Main illustrated lab guide. |
+| `cloudwan-lab-guide.pdf` | Current | Main illustrated lab guide. |
 | `cloudwan-terraform-walkthrough.pdf` | Current | Terraform-focused walkthrough with 27 unique screenshots. |
 | `github-screenshot-gallery.md` | Current | Compact GitHub evidence gallery and full screenshot index. |
 

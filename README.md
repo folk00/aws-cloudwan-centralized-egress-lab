@@ -84,6 +84,7 @@ Full gallery:
 
 - [GitHub screenshot gallery](docs/github-screenshot-gallery.md)
 - [Terraform walkthrough PDF](docs/cloudwan-terraform-walkthrough.pdf)
+- [Lab guide PDF](docs/cloudwan-lab-guide.pdf)
 
 ## Quick Start
 
@@ -152,8 +153,8 @@ the exact Network Firewall chained path.
 docs/
   architecture.md       Packet flow and design notes
   cloudwan-policy.md    Segment, attachment and service-insertion notes
-  cloudwan-step-by-step-manual.html
-  cloudwan-step-by-step-manual.pdf
+  cloudwan-lab-guide.html
+  cloudwan-lab-guide.pdf
   cloudwan-terraform-walkthrough.html
   cloudwan-terraform-walkthrough.pdf
   cost-estimate.md      Full deployment cost model
@@ -175,8 +176,8 @@ terraform/
 
 The illustrated manual is available here:
 
-- [Cloud WAN step-by-step manual - HTML](docs/cloudwan-step-by-step-manual.html)
-- [Cloud WAN step-by-step manual - PDF](docs/cloudwan-step-by-step-manual.pdf)
+- [Cloud WAN lab guide - HTML](docs/cloudwan-lab-guide.html)
+- [Cloud WAN lab guide - PDF](docs/cloudwan-lab-guide.pdf)
 - [Terraform walkthrough - HTML](docs/cloudwan-terraform-walkthrough.html)
 - [Terraform walkthrough - PDF](docs/cloudwan-terraform-walkthrough.pdf)
 - [Screenshot checklist](docs/screenshot-checklist.md)
