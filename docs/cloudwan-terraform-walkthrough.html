@@ -51,11 +51,13 @@ terraform apply "cloudwan-3region.tfplan"</pre>
     The live demo must be destroyed after screenshots and validation. Cloud WAN, Network Firewall and NAT Gateway are hourly resources.
   </div>
 
+  <div class="page-break"></div>
   <h2>3. Cloud WAN Global Network</h2>
   <p>Terraform creates the global network and deploys a core network edge in each enabled region.</p>
   <img src="images/cloudwan/01-global-network-overview-3-edges.png" alt="Global network overview">
   <p class="caption">01 - Cloud WAN global network with three edge locations and zero Transit Gateways.</p>
 
+  <div class="page-break"></div>
   <h2>4. Cloud WAN Policy Logic</h2>
   <p>The policy classifies attachments through tags. This avoids manual one-off mapping and makes the design explainable.</p>
   <img src="images/cloudwan/02-cloudwan-attachment-policies.png" alt="Attachment policies">
@@ -70,6 +72,7 @@ terraform apply "cloudwan-3region.tfplan"</pre>
   <img src="images/cloudwan/05-attachments-segment-and-nfg-mapping.png" alt="Attachment mapping">
   <p class="caption">05 - Final attachment mapping: inspection VPCs in the NFG and workload VPCs in `Prod`.</p>
 
+  <div class="page-break"></div>
   <h2>5. VPC Attachments</h2>
   <p>Workload VPC attachments connect application subnets to Cloud WAN. Inspection attachments are special because they host firewall endpoints and require appliance mode.</p>
   <img src="images/cloudwan/06-workload-vpc-attachment-dub-private-subnet.png" alt="Workload attachment">
@@ -81,6 +84,7 @@ terraform apply "cloudwan-3region.tfplan"</pre>
   <img src="images/cloudwan/08-prod-segment-three-edge-locations.png" alt="Prod segment">
   <p class="caption">08 - `Prod` segment is available across IAD, PDX and DUB.</p>
 
+  <div class="page-break"></div>
   <h2>6. DUB Route Tables</h2>
   <p>DUB is the validation region. The packet path is visible in its route tables.</p>
   <img src="images/cloudwan/09-dub-route-tables-overview.png" alt="DUB route tables">
@@ -98,6 +102,7 @@ terraform apply "cloudwan-3region.tfplan"</pre>
   <img src="images/cloudwan/13-dub-inspection-public-rt-igw-and-firewall-return.png" alt="Public route table">
   <p class="caption">13 - Public/NAT subnet sends internet traffic to IGW and return workload traffic to the firewall endpoint.</p>
 
+  <div class="page-break"></div>
   <h2>7. AWS Network Firewall</h2>
   <p>The inspection VPC contains the managed firewall. Terraform creates the rule group, policy, firewall endpoint and logging configuration.</p>
   <img src="images/cloudwan/14-network-firewall-stateful-egress-rules.png" alt="Firewall rules">
@@ -109,6 +114,7 @@ terraform apply "cloudwan-3region.tfplan"</pre>
   <img src="images/cloudwan/16-nat-gateway-available.png" alt="NAT Gateway">
   <p class="caption">16 - NAT Gateway is available for inspected egress.</p>
 
+  <div class="page-break"></div>
   <h2>8. Private Validation</h2>
   <p>The validation instance lives in a private subnet with no public IP. SSM is used instead of SSH.</p>
   <img src="images/cloudwan/17-private-ec2-instance-dub-no-public-ip.png" alt="Private EC2">
@@ -123,6 +129,7 @@ terraform apply "cloudwan-3region.tfplan"</pre>
   <img src="images/cloudwan/20-resource-tags-governance.png" alt="Tags">
   <p class="caption">20 - Governance and cost tracking tags.</p>
 
+  <div class="page-break"></div>
   <h2>9. Appendix: Additional Evidence Screenshots</h2>
   <p>These are supporting screenshots kept out of the README gallery but useful for deeper walkthroughs.</p>
 
@@ -147,6 +154,7 @@ terraform apply "cloudwan-3region.tfplan"</pre>
   <img src="images/cloudwan/terraform-walkthrough/28-core-network-edge-locations-live.png" alt="Core network edge locations">
   <p class="caption">27 - Live core network edge location list for IAD, PDX and DUB.</p>
 
+  <div class="page-break"></div>
   <h2>10. Project Summary</h2>
   <pre>I built a Terraform-based AWS Cloud WAN centralized egress lab across three regions.
 The project maps enterprise WAN concepts to AWS-native objects: Cloud WAN core network edges,

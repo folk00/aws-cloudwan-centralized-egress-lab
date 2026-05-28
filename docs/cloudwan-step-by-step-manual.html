@@ -195,6 +195,7 @@
     <tr><td>Validation</td><td>Private EC2 instances with SSM</td><td>Proves traffic works without public IPs.</td></tr>
   </table>
 
+  <div class="page-break"></div>
   <h2>5. Cloud WAN Policy</h2>
   <p>Cloud WAN classifies attachments through tags and attachment policies.</p>
   <img src="images/cloudwan/02-cloudwan-attachment-policies.png" alt="Cloud WAN attachment policies">
@@ -231,6 +232,7 @@
   <img src="images/cloudwan/08-prod-segment-three-edge-locations.png" alt="Prod segment">
   <p class="caption">The <code>Prod</code> segment across IAD, PDX and DUB.</p>
 
+  <div class="page-break"></div>
   <h2>8. Route Tables</h2>
   <p>The route tables prove the data path. In DUB, the workload VPC has one private route table, and the inspection VPC has
   route tables for Cloud WAN attachment traffic, firewall subnet traffic and public/NAT egress.</p>
@@ -269,6 +271,7 @@
   <img src="images/cloudwan/13-dub-inspection-public-rt-igw-and-firewall-return.png" alt="Inspection public route table">
   <p class="caption">DUB public route table keeps return traffic symmetric through the firewall endpoint.</p>
 
+  <div class="page-break"></div>
   <h2>9. AWS Network Firewall</h2>
   <p>The lab uses a simple stateful Suricata-compatible rule group for HTTP, HTTPS and DNS from RFC1918 workload networks.</p>
   <img src="images/cloudwan/14-network-firewall-stateful-egress-rules.png" alt="Network Firewall stateful rules">
@@ -281,6 +284,7 @@
   <img src="images/cloudwan/16-nat-gateway-available.png" alt="NAT Gateway">
   <p class="caption">DUB inspection NAT Gateway in available state.</p>
 
+  <div class="page-break"></div>
   <h2>10. Private EC2 Validation</h2>
   <p>The validation host is private and managed with SSM. It does not require SSH or a public IP.</p>
   <img src="images/cloudwan/17-private-ec2-instance-dub-no-public-ip.png" alt="Private EC2">
@@ -302,6 +306,7 @@ HTTP/2 200
   <img src="images/cloudwan/18-ssm-run-command-http-200-validation.png" alt="SSM validation">
   <p class="caption">SSM Run Command confirms that the private EC2 instance reached <code>aws.amazon.com</code>.</p>
 
+  <div class="page-break"></div>
   <h2>11. CloudWatch Flow Log Validation</h2>
   <p>Use CloudWatch Logs Insights in <code>eu-west-1</code> against this log group:</p>
   <pre>/aws/network-firewall/cloudwan-egress-lab-cheap-dub-inspection/flow</pre>
