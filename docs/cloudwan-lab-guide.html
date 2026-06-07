@@ -165,7 +165,7 @@
 
   <h2>3. Deploy From Zero With Terraform</h2>
   <h3>Step 1 - Open the Terraform folder</h3>
-  <pre>cd C:\Users\davidgo2\Downloads\aws-cloudwan-centralized-egress-lab\terraform</pre>
+  <pre>cd .\terraform</pre>
 
   <h3>Step 2 - Initialize Terraform</h3>
   <pre>terraform init</pre>
@@ -329,14 +329,14 @@ event.proto      = TCP</pre>
   <p>The lab applies default tags for ownership, environment, purpose and cost tracking.</p>
   <pre>Project     = cloudwan-egress-lab
 Environment = cheap
-Owner       = david-gonzalez
+Owner       = lab-owner
 Purpose     = cloudwan-centralized-egress-lab</pre>
   <img src="images/cloudwan/20-resource-tags-governance.png" alt="Resource tags">
   <p class="caption">Consistent resource tagging for governance and cost tracking.</p>
 
   <h2>13. Destroy the Lab</h2>
   <p>Destroy immediately after the demo or screenshots.</p>
-  <pre>cd C:\Users\davidgo2\Downloads\aws-cloudwan-centralized-egress-lab\terraform
+  <pre>cd .\terraform
 terraform destroy "-var-file=..\examples\current-3region-lab.tfvars.example"</pre>
 
   <h2>14. Project Explanation</h2>

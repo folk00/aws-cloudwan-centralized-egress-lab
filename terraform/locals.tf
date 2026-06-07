@@ -9,7 +9,7 @@ locals {
   common_tags = {
     Project     = var.project_name
     Environment = var.environment
-    Owner       = "david-gonzalez"
+    Owner       = "lab-owner"
     Purpose     = "cloudwan-centralized-egress-lab"
   }
 

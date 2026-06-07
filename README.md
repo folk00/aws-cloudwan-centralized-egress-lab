@@ -91,7 +91,7 @@ Full gallery:
 Plan only:
 
 ```powershell
-cd C:\Users\davidgo2\Downloads\aws-cloudwan-centralized-egress-lab\terraform
+cd .\terraform
 terraform init
 terraform plan
 ```

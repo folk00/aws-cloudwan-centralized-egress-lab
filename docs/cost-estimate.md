@@ -149,7 +149,7 @@ USD 3,328.80/month
 Run the included helper:
 
 ```powershell
-cd C:\Users\davidgo2\Downloads\aws-cloudwan-centralized-egress-lab
+cd .
 .\scripts\estimate-cost.ps1 -Hours 730 -AzPerRegion 1 -AssumeNatFirewallDiscount
 .\scripts\estimate-cost.ps1 -Hours 730 -AzPerRegion 1
 .\scripts\estimate-cost.ps1 -Hours 24 -AzPerRegion 1 -AssumeNatFirewallDiscount

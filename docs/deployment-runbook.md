@@ -6,7 +6,7 @@ window, and destroy immediately after testing.
 ## 1. Validate Locally
 
 ```powershell
-cd C:\Users\davidgo2\Downloads\aws-cloudwan-centralized-egress-lab
+cd .
 .\scripts\validate.ps1
 ```
 
