@@ -1,6 +1,9 @@
 # AWS Cloud WAN Centralized Egress Lab
 
 [![CI](https://github.com/folk00/aws-cloudwan-centralized-egress-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/folk00/aws-cloudwan-centralized-egress-lab/actions/workflows/ci.yml)
+[![Terraform 1.7](https://img.shields.io/badge/terraform-1.7-7B42BC?logo=terraform&logoColor=white)](https://www.terraform.io/)
+[![AWS](https://img.shields.io/badge/AWS-Cloud%20WAN-FF9900?logo=amazonaws&logoColor=white)](https://aws.amazon.com/cloud-wan/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Terraform lab for AWS Cloud WAN, centralized egress, AWS Network Firewall and
 CloudWatch validation.
