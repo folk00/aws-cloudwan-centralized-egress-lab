@@ -88,8 +88,8 @@ gallery short and use the docs for the full proof set.
 Full gallery:
 
 - [GitHub screenshot gallery](docs/github-screenshot-gallery.md)
-- [Terraform walkthrough PDF](docs/cloudwan-terraform-walkthrough.pdf)
-- [Lab guide PDF](docs/cloudwan-lab-guide.pdf)
+- [Terraform walkthrough](docs/cloudwan-terraform-walkthrough.html)
+- [Lab guide](docs/cloudwan-lab-guide.html)
 
 ## Quick Start
 
@@ -159,9 +159,7 @@ docs/
   architecture.md       Packet flow and design notes
   cloudwan-policy.md    Segment, attachment and service-insertion notes
   cloudwan-lab-guide.html
-  cloudwan-lab-guide.pdf
   cloudwan-terraform-walkthrough.html
-  cloudwan-terraform-walkthrough.pdf
   cost-estimate.md      Full deployment cost model
   deployment-runbook.md Commands to validate, deploy and destroy
   github-screenshot-gallery.md
@@ -181,10 +179,8 @@ terraform/
 
 The illustrated manual is available here:
 
-- [Cloud WAN lab guide - HTML](docs/cloudwan-lab-guide.html)
-- [Cloud WAN lab guide - PDF](docs/cloudwan-lab-guide.pdf)
-- [Terraform walkthrough - HTML](docs/cloudwan-terraform-walkthrough.html)
-- [Terraform walkthrough - PDF](docs/cloudwan-terraform-walkthrough.pdf)
+- [Cloud WAN lab guide](docs/cloudwan-lab-guide.html)
+- [Terraform walkthrough](docs/cloudwan-terraform-walkthrough.html)
 - [Screenshot checklist](docs/screenshot-checklist.md)
 
 ## Sources Used

@@ -101,14 +101,14 @@ Put the rest in `docs/images/cloudwan/` for the full PDF/manual.
 
 | Document | Status | Notes |
 | --- | --- | --- |
-| `cloudwan-lab-guide.pdf` | Current | Main illustrated lab guide. |
-| `cloudwan-terraform-walkthrough.pdf` | Current | Terraform-focused walkthrough with 27 unique screenshots. |
+| `cloudwan-lab-guide.html` | Current | Main illustrated lab guide. |
+| `cloudwan-terraform-walkthrough.html` | Current | Terraform-focused walkthrough with 27 unique screenshots. |
 | `github-screenshot-gallery.md` | Current | Compact GitHub evidence gallery and full screenshot index. |
 
 ## Terraform Walkthrough Appendix Screenshots Added
 
 These are organized under `docs/images/cloudwan/terraform-walkthrough/` and
-are used only once in `cloudwan-terraform-walkthrough.pdf`.
+are used only once in `cloudwan-terraform-walkthrough.html`.
 
 | File | Purpose |
 | --- | --- |
